@@ -133,7 +133,8 @@ resources
 | where type == 'microsoft.compute/snapshots'
 | extend TimeCreated = properties.timeCreated
 | where TimeCreated < ago(30d)
-| summarize count(type)
+| extend Details = pack_all()
+| project Resource=id, resourceGroup, location, TimeCreated ,subscriptionId, tags, Details
 ```
                               
 #### VM
@@ -159,7 +160,8 @@ resources
 resources
 | where type == "microsoft.network/loadbalancers"
 | where properties.loadBalancingRules == "[]"
-| summarize count(type)
+| extend Details = pack_all()
+| project Resource=id, resourceGroup, location, subscriptionId, tags, Details
 ```
                               
 #### Certificate Expiration(Defined 30 days as an example)
@@ -176,5 +178,6 @@ resources
 resources
 | where type == "microsoft.network/virtualnetworks"
 | where properties.subnets == "[]"
-| summarize count(name)
+| extend Details = pack_all()
+| project Resource=id, resourceGroup, location, subscriptionId, tags, Details
 ```
