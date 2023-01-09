@@ -1450,7 +1450,7 @@
         "sortBy": [],
         "tileSettings": {
           "titleContent": {
-            "columnMatch": "count_type",
+            "columnMatch": "count_name",
             "formatter": 12,
             "formatOptions": {
               "palette": "auto"
@@ -1487,10 +1487,8 @@
         "comparison": "isEqualTo",
         "value": "overview"
       },
-      "name": "query - Orphan Alerts Count",
-      "styleSettings": {
-        "showBorder": true
-      }
+      "customWidth": "15",
+      "name": "query - Orphan Alerts Count"
     },
     {
       "type": 3,
@@ -1734,7 +1732,7 @@
         "sortBy": [],
         "tileSettings": {
           "titleContent": {
-            "columnMatch": "count_type",
+            "columnMatch": "count_name",
             "formatter": 12,
             "formatOptions": {
               "palette": "auto"
