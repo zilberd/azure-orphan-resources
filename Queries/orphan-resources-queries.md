@@ -126,3 +126,55 @@ resources
 | extend Details = pack_all()
 | project Resource=id, resourceGroup, location, subscriptionId, tags, Details
 ```
+        
+#### Snapshots
+```
+resources
+| where type == 'microsoft.compute/snapshots'
+| extend TimeCreated = properties.timeCreated
+| where TimeCreated < ago(30d)
+| summarize count(type)
+```
+                              
+#### VM
+```
+resources
+| where type == 'microsoft.compute/virtualmachines'
+| extend vmstatus = properties.extended.instanceView.powerState.displayStatus
+| where vmstatus != 'VM running'
+| summarize count(type)
+```
+                              
+#### Alerts
+```
+resources
+| where type contains 'microsoft.insights/scheduledqueryrules' or type contains 'microsoft.insights/activitylogalerts' or type contains 'microsoft.insights/metricalerts'
+| extend alertstatus = properties.enabled
+| where alertstatus == 'false'
+| summarize count(name)
+```
+                              
+#### LB
+```
+resources
+| where type == "microsoft.network/loadbalancers"
+| where properties.loadBalancingRules == "[]"
+| summarize count(type)
+```
+                              
+#### Certificate Expiration(Defined 30 days as an example)
+```
+resources
+| where type == 'microsoft.web/certificates'
+| extend expiry = todatetime(properties.expirationDate)
+| where expiry between (now().. ago(-30d))
+| project CertName=properties.subjectName, expiry
+```
+                              
+#### Virtual Networks without Subnet
+```
+resources
+| where type == "microsoft.network/virtualnetworks"
+| where properties.subnets == "[]"
+| summarize count(name)
+```
