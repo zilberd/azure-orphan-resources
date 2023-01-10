@@ -7469,7 +7469,7 @@
         "version": "KqlItem/1.0",
         "query": "resources\r\n| where type == 'microsoft.compute/virtualmachines'\r\n| extend vmstatus = properties.extended.instanceView.powerState.displayStatus\r\n| where vmstatus != 'VM running'\r\n| summarize count(type)",
         "size": 4,
-        "title": "VMs",
+        "title": "Non Running VMs",
         "queryType": 1,
         "resourceType": "microsoft.resourcegraph/resources",
         "crossComponentResources": [
@@ -7555,7 +7555,7 @@
         "value": "vms"
       },
       "customWidth": "15",
-      "name": "query - Orphan Vms"
+      "name": "query - Non Running Vms"
     },
     {
       "type": 3,
@@ -7563,7 +7563,7 @@
         "version": "KqlItem/1.0",
         "query": "resources\r\n| where type == 'microsoft.compute/virtualmachines'\r\n| extend vmstatus = properties.extended.instanceView.powerState.displayStatus\r\n| where vmstatus != 'VM running'\r\n| extend Details = pack_all()\r\n| project Resource=id, resourceGroup, location, subscriptionId, tags, Details",
         "size": 3,
-        "title": "Orphan VMs",
+        "title": "Non Running VMs",
         "noDataMessage": "No oprhan VMs found",
         "showExportToExcel": true,
         "queryType": 1,
@@ -7679,7 +7679,7 @@
         "comparison": "isEqualTo",
         "value": "vms"
       },
-      "name": "query - Orphan VMs"
+      "name": "query - Non Running VMs"
     },
     {
       "type": 1,
