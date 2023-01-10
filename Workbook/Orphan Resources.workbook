@@ -2022,7 +2022,7 @@
         "version": "KqlItem/1.0",
         "query": "Resources\r\n| where type =~ 'microsoft.network/networksecuritygroups' and isnull(properties.networkInterfaces) and isnull(properties.subnets)\r\n| summarize count(name)",
         "size": 4,
-        "title": "NSG ",
+        "title": "Unassociated NSGs",
         "queryType": 1,
         "resourceType": "microsoft.resourcegraph/resources",
         "crossComponentResources": [
@@ -8747,7 +8747,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "resources\r\n| where type == \"microsoft.network/virtualnetworks\"\r\n| extend subnet = properties.subnets\r\n| mv-expand subnet\r\n| where subnet.name !in (\"GatewaySubnet\",\"AzureBastionSubnet\",\"AzureFirewallSubnet\",\"gatewaysubnet\")\r\n| where subnet.properties.networkSecurityGroup == \"\"\r\n| extend Details = pack_all()\r\n| project Resource=id, resourceGroup,subnet.name ,location, subscriptionId,tags, Details",
+        "query": "resources\r\n| where type == \"microsoft.network/virtualnetworks\"\r\n| extend subnet = properties.subnets\r\n| mv-expand subnet\r\n| where subnet.name !in (\"GatewaySubnet\",\"AzureBastionSubnet\",\"AzureFirewallSubnet\",\"gatewaysubnet\")\r\n| where subnet.properties.networkSecurityGroup == \"\"\r\n| extend Details = pack_all()\r\n| project Resource=id, resourceGroup,subnet.name , subnet.properties.addressPrefix,location, subscriptionId,tags, Details",
         "size": 3,
         "title": "Orphan Subnetss (no NSG)",
         "noDataMessage": "No orphan subnets found",
@@ -8897,7 +8897,7 @@
         "version": "KqlItem/1.0",
         "query": "Resources\r\n| where type =~ 'microsoft.network/networksecuritygroups' and isnull(properties.networkInterfaces) and isnull(properties.subnets)\r\n| summarize count(name)",
         "size": 4,
-        "title": "NSGs",
+        "title": "Unassociated NSGs",
         "queryType": 1,
         "resourceType": "microsoft.resourcegraph/resources",
         "crossComponentResources": [
