@@ -221,3 +221,15 @@ policyresources
 | extend Details = pack_all()
 | project Policy=id,name, displayName, Details
 ````
+
+#### Subnets without NSG
+```
+resources
+| where type == "microsoft.network/virtualnetworks"
+| extend subnet = properties.subnets
+| mv-expand subnet
+| where subnet.name !in ("GatewaySubnet","AzureBastionSubnet","AzureFirewallSubnet","gatewaysubnet")
+| where subnet.properties.networkSecurityGroup == ""
+| extend Details = pack_all()
+| project Resource=id, resourceGroup,subnet.name , subnet.properties.addressPrefix,location, subscriptionId,tags, Details
+```
